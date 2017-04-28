@@ -1,12 +1,14 @@
 package com.sebullek.metronome;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.EventLog;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,8 +22,9 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
 
     private static final String TAG = "Metronome";
 
-    //fields
-    //private AudioClip ClickSound; //the sound file
+
+    private ToneGenerator tone;
+    private MediaPlayer mp_tick;
 
 
     private Thread runner;        //the animator
@@ -40,9 +43,6 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
 
     private boolean play = false;
 
-    private ToneGenerator tone;
-
-    private MediaPlayer mp_tick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
         setContentView(R.layout.activity_metronome);
 
 
+        mp_tick = new MediaPlayer().create(this, R.raw.tick);
+        //ClickSound = getAudioClip(getCodeBase(), "ClickSound.au");
 
 
         start = (Button)findViewById(R.id.start);
@@ -91,8 +93,6 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
         sb_metrum.setProgress(metrum);
         tv_metrum.setText("METRUM: " + metrum);
 
-        mp_tick = new MediaPlayer().create(this, R.raw.tick);
-            //ClickSound = getAudioClip(getCodeBase(), "ClickSound.au");
 
 
 
@@ -247,18 +247,26 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
             counter = 1;
         }
 
+
+
         if (counter == 1) {
-            tone.startTone(12, 500);
-            //mp_tick.start();
+            //tone.startTone(12, 500);
+            mp_tick.start();
             System.out.println("TICK");
         } else {
-            tone.startTone(16, 500);
-            //mp_tick.start();
+            //tone.startTone(16, 500);
+            mp_tick.start();
             System.out.println("TOCK");
         }
 
         Log.i(TAG, "counter = " + counter);
         try{Thread.sleep(bpm);} catch(InterruptedException e){}
+
+
+        if (mp_tick.isPlaying()){
+            mp_tick.stop();
+        }
+
 
         if (counter == sb_metrum.getProgress() && cb_speed_trainer.isChecked()) {
 
