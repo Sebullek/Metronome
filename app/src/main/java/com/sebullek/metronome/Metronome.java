@@ -246,8 +246,7 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
         if (counter > sb_metrum.getProgress()) {
             counter = 1;
         }
-
-
+        
 
         if (counter == 1) {
             //tone.startTone(12, 500);
