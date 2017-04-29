@@ -18,39 +18,73 @@
         android:layout_height="wrap_content"
         android:layout_weight="2">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BPM"
-            android:gravity="center_horizontal"
-            android:id="@+id/bpm"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="2">
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_bpm"
-            android:max="360"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BPM"
+                android:gravity="center_horizontal"
+                android:id="@+id/bpm"
+                android:textSize="24sp"
+                android:layout_weight="2" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Metrum"
-            android:gravity="center_horizontal"
-            android:id="@+id/metrum"
-            android:textSize="24sp" />
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_bpm"
+                android:max="360"
+                android:layout_weight="2" />
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_metrum"
-            android:max="8"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:ems="10"
+                android:id="@+id/editText"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <Button
-            android:text="START"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/start" />
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Metrum"
+                android:gravity="center_horizontal"
+                android:id="@+id/metrum"
+                android:textSize="24sp"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_metrum"
+                android:max="8"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <Button
+                android:text="START"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/start" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -61,69 +95,114 @@
         android:layout_height="wrap_content"
         android:layout_weight="2">
 
-        <CheckBox
-            android:text="Trener Prędkości"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cb_speed_trainer"
-            android:gravity="center_horizontal"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Min BPM"
-            android:gravity="center_horizontal"
-            android:id="@+id/tv_min_bpm"
-            android:textSize="24sp" />
+            <CheckBox
+                android:text="Trener Prędkości"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cb_speed_trainer"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <SeekBar
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_min_bpm"
-            android:max="360"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Max BPM"
-            android:gravity="center_horizontal"
-            android:id="@+id/tv_max_bpm"
-            android:textSize="24sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Min BPM"
+                android:gravity="center_horizontal"
+                android:id="@+id/tv_min_bpm"
+                android:textSize="24sp"
+                android:layout_weight="1" />
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_max_bpm"
-            android:max="360"/>
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_min_bpm"
+                android:max="360"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loop number"
-            android:gravity="center_horizontal"
-            android:id="@+id/tv_loop_number"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_loop_number"
-            android:max="10"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Max BPM"
+                android:gravity="center_horizontal"
+                android:id="@+id/tv_max_bpm"
+                android:textSize="24sp"
+                android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Increase"
-            android:gravity="center_horizontal"
-            android:id="@+id/tv_increase"
-            android:textSize="24sp" />
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_max_bpm"
+                android:max="360"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <SeekBar
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_increase"
-            android:max="50" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loop number"
+                android:gravity="center_horizontal"
+                android:id="@+id/tv_loop_number"
+                android:textSize="24sp"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_loop_number"
+                android:max="10"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Increase"
+                android:gravity="center_horizontal"
+                android:id="@+id/tv_increase"
+                android:textSize="24sp"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sb_increase"
+                android:max="50"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>
