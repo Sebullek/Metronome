@@ -1,5 +1,6 @@
 package com.sebullek.metronome;
 
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -8,10 +9,18 @@ import android.media.ToneGenerator;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -131,8 +140,83 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
         sb_max_bpm.setOnSeekBarChangeListener(this);
         sb_loop_number.setOnSeekBarChangeListener(this);
         sb_increase.setOnSeekBarChangeListener(this);
+
+
+        ///////////////////////////////////////////////////////////////////////
+
+        ViewGroup viewGroup = (ViewGroup) findViewById(android.R.id.content);
+        disableAllEditText(viewGroup);
+
+        String[] a_bpm = new String[360];
+        for (int i = 0; i < a_bpm.length; i++){
+            a_bpm[i] = "" + (i + 1);
+        }
+
+        String[] a_metrum = new String[8];
+        for (int i = 0; i < a_metrum.length; i++){
+            a_metrum[i] = "" + (i + 1);
+        }
+
+        String[] a_loop = new String[10];
+        for (int i = 0; i < a_loop.length; i++){
+            a_loop[i] = "" + (i + 1);
+        }
+
+        String[] a_increase = new String[50];
+        for (int i = 0; i < a_increase.length; i++){
+            a_increase[i] = "" + (i + 1);
+        }
+
+
+        ListAdapter adapter_bpm = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_bpm);
+        ListAdapter adapter_metrum = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_metrum);
+        ListAdapter adapter_loop = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_loop);
+        ListAdapter adapter_increase = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_increase);
+
+        es_bpm = (EditSpinner) findViewById(R.id.es_bpm);
+        es_metrum = (EditSpinner) findViewById(R.id.es_metrum);
+
+        es_min_bpm = (EditSpinner) findViewById(R.id.es_min_bpm);
+        es_max_bpm = (EditSpinner) findViewById(R.id.es_max_bpm);
+        es_loop = (EditSpinner) findViewById(R.id.es_loop);
+        es_increase = (EditSpinner) findViewById(R.id.es_increase);
+
+        es_bpm.setAdapter(adapter_bpm);
+        es_metrum.setAdapter(adapter_metrum);
+        es_min_bpm.setAdapter(adapter_bpm);
+        es_max_bpm.setAdapter(adapter_bpm);
+        es_loop.setAdapter(adapter_loop);
+        es_increase.setAdapter(adapter_increase);
+
+        es_bpm.setOnClickListener(doubleClickListener);
+        es_metrum.setOnClickListener(doubleClickListener);
+        es_min_bpm.setOnClickListener(doubleClickListener);
+        es_max_bpm.setOnClickListener(doubleClickListener);
+        es_loop.setOnClickListener(doubleClickListener);
+        es_increase.setOnClickListener(doubleClickListener);
+
+        es_bpm.setOnEditorActionListener(onEditorActionListener);
+        es_metrum.setOnEditorActionListener(onEditorActionListener);
+        es_min_bpm.setOnEditorActionListener(onEditorActionListener);
+        es_max_bpm.setOnEditorActionListener(onEditorActionListener);
+        es_loop.setOnEditorActionListener(onEditorActionListener);
+        es_increase.setOnEditorActionListener(onEditorActionListener);
+
+        es_bpm.setOnFocusChangeListener(onFocusChangeListener);
+        es_metrum.setOnFocusChangeListener(onFocusChangeListener);
+        es_min_bpm.setOnFocusChangeListener(onFocusChangeListener);
+        es_max_bpm.setOnFocusChangeListener(onFocusChangeListener);
+        es_loop.setOnFocusChangeListener(onFocusChangeListener);
+        es_increase.setOnFocusChangeListener(onFocusChangeListener);
     }
 
+
+    EditSpinner es_bpm;
+    EditSpinner es_metrum;
+    EditSpinner es_min_bpm;
+    EditSpinner es_max_bpm;
+    EditSpinner es_loop;
+    EditSpinner es_increase;
 
     @Override
     public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
@@ -311,5 +395,143 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
     private TextView tv_increase;
 
 
+
+    private DoubleClickListener doubleClickListener = new DoubleClickListener() {
+
+        @Override
+        public void onSingleClick(View v) {
+
+            disableEditText(v);
+
+            checkSingleClickView(v);
+
+            // show a list
+            EditSpinner editSpinner = (EditSpinner) v;
+            editSpinner.showDropDown();
+        }
+
+        @Override
+        public void onDoubleClick(View v) {
+
+            checkDoubleClickView(v);
+
+            enableEditText(v);
+        }
+    };
+
+    private EditText.OnEditorActionListener onEditorActionListener = new EditText.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+
+                // End typing text
+
+                disableEditText(v);
+                return true;
+            }
+            return false;
+        }
+    };
+
+    private View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            //disableEditText(v);
+
+
+            if (!hasFocus) {
+                // end focusing on View
+
+                disableEditText(v);
+            }
+
+            if (hasFocus) {
+
+                // start focusing on View
+                // call onClick method
+
+                v.performClick();
+            }
+        }
+    };
+
+    private void disableEditText(View v) {
+
+        // disable typing
+
+        EditText editText = (EditText)findViewById(v.getId());
+        editText.setInputType(InputType.TYPE_NULL);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+    private void enableEditText(View v) {
+
+        // enable typing
+
+        EditText editText = (EditText)findViewById(v.getId());
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void disableAllEditText(ViewGroup viewGroup) {
+
+        // disable typing in all of the EditTexts
+
+        int count = viewGroup.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof ViewGroup)
+                disableAllEditText((ViewGroup) view);
+            else if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                //editText.setText(i + " id: " + editText.getId());
+                disableEditText(editText);
+            }
+
+        }
+
+    }
+
+    // Check which View was clicked
+    private void checkSingleClickView(View v) {
+        /*switch (v.getId())
+        {
+            case R.id.editText:
+                textView.setText("Single Click editText");
+                break;
+            case R.id.editText2:
+                textView.setText("Single Click editText2");
+                break;
+            case R.id.editSpinner:
+                textView.setText("Single Click editSpinner");
+                break;
+            case R.id.editSpinner2:
+                textView.setText("Single Click EditSpinner2");
+                break;
+        }*/
+    }
+
+    private void checkDoubleClickView(View v) {
+        /*switch (v.getId())
+        {
+            case R.id.editText:
+                textView.setText("Double Click editText");
+                break;
+            case R.id.editText2:
+                textView.setText("Double Click editText2");
+                break;
+            case R.id.editSpinner:
+                textView.setText("Double Click editSpinner");
+                break;
+            case R.id.editSpinner2:
+                textView.setText("Double Click EditSpinner2");
+                break;
+        }*/
+    }
 
 }
