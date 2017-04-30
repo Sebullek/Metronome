@@ -188,6 +188,8 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
         es_loop.setAdapter(adapter_loop);
         es_increase.setAdapter(adapter_increase);
 
+        setDefaultValues();
+
         es_bpm.setOnClickListener(doubleClickListener);
         es_metrum.setOnClickListener(doubleClickListener);
         es_min_bpm.setOnClickListener(doubleClickListener);
@@ -217,6 +219,25 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
     EditSpinner es_max_bpm;
     EditSpinner es_loop;
     EditSpinner es_increase;
+
+    private static int DEFAULT_BPM = 120;
+    private static int DEFAULT_METRUM = 4;
+    private static int DEFAULT_MIN_BPM = 60;
+    private static int DEFAULT_MAX_BPM = 300;
+    private static int DEFAULT_LOOP_NUMBER = 3;
+    private static int DEFAULT_INCREASE = 20;
+
+    public void setDefaultValues() {
+        es_bpm.setText(String.valueOf(DEFAULT_BPM));
+        es_metrum.setText(String.valueOf(DEFAULT_METRUM));;
+        es_min_bpm.setText(String.valueOf(DEFAULT_MIN_BPM));;
+        es_max_bpm.setText(String.valueOf(DEFAULT_MAX_BPM));;
+        es_loop.setText(String.valueOf(DEFAULT_LOOP_NUMBER));;
+        es_increase.setText(String.valueOf(DEFAULT_INCREASE));;
+    }
+
+    ////////////////////////////////////////////////
+    //Spin;ner
 
     @Override
     public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
@@ -268,6 +289,7 @@ public class Metronome extends AppCompatActivity implements Runnable, SeekBar.On
     public void onStopTrackingTouch(SeekBar arg0) {
     }
 
+    ////////////////////////////////////////////////
 
     //the start method (called when the applet is called)
     public void start()
