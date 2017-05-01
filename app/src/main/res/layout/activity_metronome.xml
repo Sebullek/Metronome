@@ -15,77 +15,32 @@
     tools:context="com.sebullek.metronome.Metronome">
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2">
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BPM"
                 android:gravity="center_horizontal"
                 android:id="@+id/bpm"
                 android:textSize="24sp"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_bpm"
-                android:max="360"
-                android:layout_weight="2" />
-
-
-            <com.sebullek.metronome.EditSpinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="BPM"
-                android:ems="10"
-                android:id="@+id/es_bpm"
-                android:layout_margin="20dp"
-                android:hint="enter security question"
-                android:textColorHint="#aa828282"
-                android:textSize="18dp"
-                android:padding="8dp"
-                app:dropDownDrawable="@drawable/picker"
-                app:dropDownDrawableSpacing="15dp"
-                app:dropDownDrawableWidth="25dp"
-                app:dropDownDrawableHeight="25dp"
-                app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+                android:layout_weight="2"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Metrum"
                 android:gravity="center_horizontal"
                 android:id="@+id/metrum"
                 android:textSize="24sp"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_metrum"
-                android:max="8"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:layout_below="@+id/es_bpm"
+                android:layout_alignParentStart="true" />
 
             <com.sebullek.metronome.EditSpinner
                 android:layout_width="wrap_content"
@@ -94,7 +49,6 @@
                 android:text="Metrum"
                 android:ems="10"
                 android:id="@+id/es_metrum"
-                android:layout_margin="20dp"
                 android:hint="enter security question"
                 android:textColorHint="#aa828282"
                 android:textSize="18dp"
@@ -104,221 +58,63 @@
                 app:dropDownDrawableWidth="25dp"
                 app:dropDownDrawableHeight="25dp"
                 app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignBaseline="@+id/metrum"
+                android:layout_alignBottom="@+id/metrum"
+                android:layout_alignParentEnd="true" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+            <com.sebullek.metronome.EditSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="BPM"
+                android:ems="10"
+                android:id="@+id/es_bpm"
+                android:hint="enter security question"
+                android:textColorHint="#aa828282"
+                android:textSize="18dp"
+                android:padding="8dp"
+                app:dropDownDrawable="@drawable/picker"
+                app:dropDownDrawableSpacing="15dp"
+                app:dropDownDrawableWidth="25dp"
+                app:dropDownDrawableHeight="25dp"
+                app:dropDownAnimStyle="@style/CustomPopupAnimation"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignBaseline="@+id/bpm"
+                android:layout_alignBottom="@+id/bpm"
+                android:layout_alignStart="@+id/es_metrum" />
 
             <Button
                 android:text="START"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/start" />
-        </LinearLayout>
+                android:id="@+id/start"
+                android:layout_below="@+id/es_metrum"
+                android:layout_alignParentStart="true" />
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <CheckBox
-                android:text="Trener Prędkości"
+            <Button
+                android:text="TRENER PRĘDKOŚCI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cb_speed_trainer"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
+                android:id="@+id/speed_trainer"
+                android:layout_below="@+id/start"
+                android:layout_alignParentStart="true" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Min BPM"
-                android:gravity="center_horizontal"
-                android:id="@+id/tv_min_bpm"
-                android:textSize="24sp"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_min_bpm"
-                android:max="360"
-                android:layout_weight="2" />
-
-            <com.sebullek.metronome.EditSpinner
+                android:text="METRUM COUNTER"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="Min BPM"
-                android:ems="10"
-                android:id="@+id/es_min_bpm"
-                android:layout_margin="20dp"
-                android:hint="enter security question"
-                android:textColorHint="#aa828282"
-                android:textSize="18dp"
-                android:padding="8dp"
-                app:dropDownDrawable="@drawable/picker"
-                app:dropDownDrawableSpacing="15dp"
-                app:dropDownDrawableWidth="25dp"
-                app:dropDownDrawableHeight="25dp"
-                app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Max BPM"
-                android:gravity="center_horizontal"
-                android:id="@+id/tv_max_bpm"
                 android:textSize="24sp"
-                android:layout_weight="2" />
+                android:id="@+id/tv_metrum_counter"
+                android:layout_below="@+id/speed_trainer"
+                android:layout_centerHorizontal="true" />
 
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_max_bpm"
-                android:max="360"
-                android:layout_weight="2" />
+        </RelativeLayout>
 
-            <com.sebullek.metronome.EditSpinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="Max BPM"
-                android:ems="10"
-                android:id="@+id/es_max_bpm"
-                android:layout_margin="20dp"
-                android:hint="enter security question"
-                android:textColorHint="#aa828282"
-                android:textSize="18dp"
-                android:padding="8dp"
-                app:dropDownDrawable="@drawable/picker"
-                app:dropDownDrawableSpacing="15dp"
-                app:dropDownDrawableWidth="25dp"
-                app:dropDownDrawableHeight="25dp"
-                app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Loop number"
-                android:gravity="center_horizontal"
-                android:id="@+id/tv_loop_number"
-                android:textSize="24sp"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_loop_number"
-                android:max="10"
-                android:layout_weight="2" />
-
-            <com.sebullek.metronome.EditSpinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="Loop"
-                android:ems="10"
-                android:id="@+id/es_loop"
-                android:layout_margin="20dp"
-                android:hint="enter security question"
-                android:textColorHint="#aa828282"
-                android:textSize="18dp"
-                android:padding="8dp"
-                app:dropDownDrawable="@drawable/picker"
-                app:dropDownDrawableSpacing="15dp"
-                app:dropDownDrawableWidth="25dp"
-                app:dropDownDrawableHeight="25dp"
-                app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Increase"
-                android:gravity="center_horizontal"
-                android:id="@+id/tv_increase"
-                android:textSize="24sp"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sb_increase"
-                android:max="50"
-                android:layout_weight="2" />
-
-            <com.sebullek.metronome.EditSpinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="Increase"
-                android:ems="10"
-                android:id="@+id/es_increase"
-                android:layout_margin="20dp"
-                android:hint="enter security question"
-                android:textColorHint="#aa828282"
-                android:textSize="18dp"
-                android:padding="8dp"
-                app:dropDownDrawable="@drawable/picker"
-                app:dropDownDrawableSpacing="15dp"
-                app:dropDownDrawableWidth="25dp"
-                app:dropDownDrawableHeight="25dp"
-                app:dropDownAnimStyle="@style/CustomPopupAnimation"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -1,11 +1,10 @@
 package com.sebullek.metronome;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,14 +14,18 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-
 import java.lang.*;
 
-public class Metronome extends AppCompatActivity implements Runnable {
+/**
+ * Created by Sebullek on 01.05.2017.
+ */
+
+public class SpeedTrainer extends AppCompatActivity implements Runnable {
 
 
     private static final String TAG = "Metronome";
@@ -32,9 +35,8 @@ public class Metronome extends AppCompatActivity implements Runnable {
     private MediaPlayer mp_tick;
 
 
-    private Thread runner;
+    private Thread runner;        //the animator
     private Button start;
-    private Button speed_trainer;
 
     private int bpm;  //the current tempo
     private int counter = 0;
@@ -42,27 +44,18 @@ public class Metronome extends AppCompatActivity implements Runnable {
 
     private boolean play = false;
 
-    private EditSpinner es_bpm;
-    private EditSpinner es_metrum;
-    private TextView tv_metrum_counter;
-
-    private static int DEFAULT_BPM = 120;
-    private static int DEFAULT_METRUM = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_metronome);
+        setContentView(R.layout.activity_speed_trainer);
 
 
         mp_tick = new MediaPlayer().create(this, R.raw.tick);
         //ClickSound = getAudioClip(getCodeBase(), "ClickSound.au");
 
 
-        tv_metrum_counter = (TextView)findViewById(R.id.tv_metrum_counter);
         start = (Button)findViewById(R.id.start);
-        speed_trainer = (Button)findViewById(R.id.speed_trainer);
-
 
         tone = new ToneGenerator(1, 100);   //ToneGenerator (int streamType, int volume)
         Log.i(TAG, "onCreate");
@@ -75,6 +68,7 @@ public class Metronome extends AppCompatActivity implements Runnable {
                 if (!play) {
                     start.setText("STOP");
                     play = true;
+                    current_bpm = Integer.parseInt(es_min_bpm.getText().toString());
                     start();
                 } else {
                     start.setText("START");
@@ -85,13 +79,7 @@ public class Metronome extends AppCompatActivity implements Runnable {
             }
         });
 
-        speed_trainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(Metronome.this, SpeedTrainer.class);
-                startActivity(myIntent);
-            }
-        });
+
 
         ///////////////////////////////////////////////////////////////////////
 
@@ -108,34 +96,75 @@ public class Metronome extends AppCompatActivity implements Runnable {
             a_metrum[i] = "" + (i + 1);
         }
 
+        String[] a_loop = new String[10];
+        for (int i = 0; i < a_loop.length; i++){
+            a_loop[i] = "" + (i + 1);
+        }
+
+        String[] a_increase = new String[50];
+        for (int i = 0; i < a_increase.length; i++){
+            a_increase[i] = "" + (i + 1);
+        }
+
 
         ListAdapter adapter_bpm = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_bpm);
         ListAdapter adapter_metrum = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_metrum);
+        ListAdapter adapter_loop = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_loop);
+        ListAdapter adapter_increase = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, a_increase);
 
-        es_bpm = (EditSpinner) findViewById(R.id.es_bpm);
         es_metrum = (EditSpinner) findViewById(R.id.es_metrum);
 
+        es_min_bpm = (EditSpinner) findViewById(R.id.es_min_bpm);
+        es_max_bpm = (EditSpinner) findViewById(R.id.es_max_bpm);
+        es_loop = (EditSpinner) findViewById(R.id.es_loop);
+        es_increase = (EditSpinner) findViewById(R.id.es_increase);
 
-        es_bpm.setAdapter(adapter_bpm);
         es_metrum.setAdapter(adapter_metrum);
+        es_min_bpm.setAdapter(adapter_bpm);
+        es_max_bpm.setAdapter(adapter_bpm);
+        es_loop.setAdapter(adapter_loop);
+        es_increase.setAdapter(adapter_increase);
 
         setDefaultValues();
 
-        es_bpm.setOnClickListener(doubleClickListener);
         es_metrum.setOnClickListener(doubleClickListener);
+        es_min_bpm.setOnClickListener(doubleClickListener);
+        es_max_bpm.setOnClickListener(doubleClickListener);
+        es_loop.setOnClickListener(doubleClickListener);
+        es_increase.setOnClickListener(doubleClickListener);
 
-        es_bpm.setOnEditorActionListener(onEditorActionListener);
         es_metrum.setOnEditorActionListener(onEditorActionListener);
+        es_min_bpm.setOnEditorActionListener(onEditorActionListener);
+        es_max_bpm.setOnEditorActionListener(onEditorActionListener);
+        es_loop.setOnEditorActionListener(onEditorActionListener);
+        es_increase.setOnEditorActionListener(onEditorActionListener);
 
-        es_bpm.setOnFocusChangeListener(onFocusChangeListener);
         es_metrum.setOnFocusChangeListener(onFocusChangeListener);
+        es_min_bpm.setOnFocusChangeListener(onFocusChangeListener);
+        es_max_bpm.setOnFocusChangeListener(onFocusChangeListener);
+        es_loop.setOnFocusChangeListener(onFocusChangeListener);
+        es_increase.setOnFocusChangeListener(onFocusChangeListener);
     }
 
 
+    EditSpinner es_metrum;
+    EditSpinner es_min_bpm;
+    EditSpinner es_max_bpm;
+    EditSpinner es_loop;
+    EditSpinner es_increase;
+
+    private static int DEFAULT_METRUM = 4;
+    private static int DEFAULT_MIN_BPM = 60;
+    private static int DEFAULT_MAX_BPM = 300;
+    private static int DEFAULT_LOOP_NUMBER = 3;
+    private static int DEFAULT_INCREASE = 20;
 
     public void setDefaultValues() {
-        es_bpm.setText(String.valueOf(DEFAULT_BPM));
         es_metrum.setText(String.valueOf(DEFAULT_METRUM));;
+        es_min_bpm.setText(String.valueOf(DEFAULT_MIN_BPM));;
+        es_max_bpm.setText(String.valueOf(DEFAULT_MAX_BPM));;
+        es_loop.setText(String.valueOf(DEFAULT_LOOP_NUMBER));;
+        es_increase.setText(String.valueOf(DEFAULT_INCREASE));;
     }
 
     //the start method (called when the applet is called)
@@ -181,7 +210,7 @@ public class Metronome extends AppCompatActivity implements Runnable {
             //tempo = 60;
 
             //bpm = sb_bpm.getProgress();
-            bpm = Integer.parseInt(es_bpm.getText().toString());
+            bpm = Integer.parseInt(es_min_bpm.getText().toString());
 
             if (play) {
                 PlayMetro();
@@ -193,7 +222,8 @@ public class Metronome extends AppCompatActivity implements Runnable {
     //the PlayMetro() method is what makes the sound play
     public void PlayMetro( )
     {
-        bpm = 60*1000/bpm;   //convert to correct time
+        int copy_bpm = current_bpm;
+        copy_bpm = 60*1000/copy_bpm;   //convert to correct time
 
         int metrum = Integer.parseInt(es_metrum.getText().toString());
 
@@ -213,23 +243,50 @@ public class Metronome extends AppCompatActivity implements Runnable {
             //mp_tick.start();
             System.out.println("TOCK");
         }
-        /*
-        if (!tv_metrum_counter.getText().toString().equals(String.valueOf(counter))) {
-            tv_metrum_counter.setText(String.valueOf(counter));
-        }
-        */
 
         Log.i(TAG, "counter = " + counter);
-        try{Thread.sleep(bpm);} catch(InterruptedException e){}
+        try{Thread.sleep(copy_bpm);} catch(InterruptedException e){}
 
 
         if (mp_tick.isPlaying()){
             mp_tick.stop();
         }
+
+
+        if (counter == metrum && cb_speed_trainer.isChecked()) {
+
+            Log.i(TAG, "BUJA = " + counter);
+            loop_counter++;
+            //Log.i(TAG, "loop_counter = " + loop_counter);
+
+            int loop_number = Integer.parseInt(es_loop.getText().toString());
+            int increase = Integer.parseInt(es_increase.getText().toString());
+            int max_bpm = Integer.parseInt(es_max_bpm.getText().toString());
+
+            if (loop_counter == loop_number ) {
+                current_bpm = current_bpm + increase;
+
+
+                if (current_bpm > max_bpm) {
+                    current_bpm = max_bpm;
+                } else {
+                }
+                //sb_bpm.setProgress(current_bpm);
+                //bpm = sb_bpm.getProgress();
+                loop_counter = 0;
+            }
+        }
+        Log.i(TAG, "current_bpm = " + current_bpm);
     }
 
 
 
+
+    private int current_bpm;
+    private int loop_counter = 0;
+
+
+    private CheckBox cb_speed_trainer;
 
     private DoubleClickListener doubleClickListener = new DoubleClickListener() {
 
